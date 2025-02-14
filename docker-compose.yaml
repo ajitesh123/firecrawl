@@ -1,10 +1,7 @@
 name: firecrawl
 
 x-common-service: &common-service
-  build: 
-    context: apps/api
-    args:
-      BUILDKIT_INLINE_CACHE: 1
+  build: apps/api
   ulimits:
     nofile:
       soft: 65535
@@ -16,10 +13,7 @@ x-common-service: &common-service
 
 services:
   playwright-service:
-    build: 
-      context: apps/playwright-service
-      args:
-        BUILDKIT_INLINE_CACHE: 1
+    build: apps/playwright-service
     environment:
       - PORT=3000
       - PROXY_SERVER=${PROXY_SERVER}
@@ -28,9 +22,6 @@ services:
       - BLOCK_MEDIA=${BLOCK_MEDIA}
     networks:
       - backend
-    tmpfs:
-      - /tmp
-      - /root/.cache
 
   api:
     <<: *common-service
